@@ -1,0 +1,99 @@
+/* =========================================================
+   Site-wide motion. Everything here is switched off for
+   visitors who ask for reduced motion (see the global rule
+   at the end of global.css, and the guards in Motion.jsx).
+   ========================================================= */
+
+/* 1. page transitions: each page rises in when you navigate */
+.view { animation: view-in .45s cubic-bezier(.2, .7, .2, 1) backwards; } /* "backwards", not "both": a lingering transform would trap fixed panels (filter sheet) inside the page */
+@keyframes view-in { from { opacity: 0; transform: translateY(10px); } }
+
+/* 2. scroll progress: a thin CMYK line under the header */
+.scroll-prog {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--c) 0 25%, var(--m) 25% 50%, var(--y) 50% 75%, var(--k) 75%);
+  transform: scaleX(var(--p, 0));
+  transform-origin: 0 50%;
+  pointer-events: none;
+}
+
+/* 3. fly to cart: a little sheet of the chosen paper flies to the cart */
+.fly-sheet {
+  position: fixed;
+  z-index: 200;
+  left: 0;
+  top: 0;
+  width: 34px;
+  height: 44px;
+  margin: -22px 0 0 -17px;
+  border-radius: 3px;
+  background: linear-gradient(#fff 0 60%, var(--band, #1b2fd8) 60% 80%, #fff 80%);
+  box-shadow: 0 0 0 1px rgba(15, 17, 48, .08), 0 10px 22px -6px rgba(15, 17, 48, .45);
+  pointer-events: none;
+}
+.cart-icon.cart-hit svg { animation: cart-hit .5s cubic-bezier(.3, .7, .3, 1); }
+@keyframes cart-hit {
+  30% { transform: translateY(3px) rotate(-10deg) scale(1.12); }
+  60% { transform: translateY(-2px) rotate(6deg); }
+}
+
+/* 4. CMYK colour bars print themselves in, one patch after another */
+.cmyk i { transform: scaleY(1); transform-origin: 50% 100%; }
+.cmyk.cm-wait i { transform: scaleY(0); }
+.cmyk.cm-wait.cm-in i {
+  transform: scaleY(1);
+  transition: transform .5s cubic-bezier(.2, .9, .3, 1.2);
+  transition-delay: calc(var(--n) * 35ms);
+}
+
+/* 5. groups of cards appear one after another (with .reveal from Home.jsx) */
+.stagger.fx-wait > * { opacity: 0; transform: translateY(18px); }
+.stagger.fx-wait.fx-in > * {
+  opacity: 1;
+  transform: none;
+  transition: opacity .6s ease, transform .7s cubic-bezier(.2, .7, .2, 1);
+  transition-delay: calc(var(--si, 0) * 70ms);
+}
+.stagger > :nth-child(2) { --si: 1; } .stagger > :nth-child(3) { --si: 2; } .stagger > :nth-child(4) { --si: 3; }
+.stagger > :nth-child(5) { --si: 4; } .stagger > :nth-child(6) { --si: 5; } .stagger > :nth-child(7) { --si: 6; }
+.stagger > :nth-child(8) { --si: 7; }
+/* the reveal wrapper itself should not also slide */
+.stagger.reveal.fx-wait { opacity: 1; transform: none; }
+
+/* product grids elsewhere (shop, related papers): cards rise in */
+.grid:not(.stagger) > .card { animation: card-in .55s cubic-bezier(.2, .7, .2, 1) backwards; }
+.grid:not(.stagger) > .card:nth-child(2) { animation-delay: .05s; } .grid:not(.stagger) > .card:nth-child(3) { animation-delay: .1s; }
+.grid:not(.stagger) > .card:nth-child(4) { animation-delay: .15s; } .grid:not(.stagger) > .card:nth-child(5) { animation-delay: .2s; }
+.grid:not(.stagger) > .card:nth-child(6) { animation-delay: .25s; } .grid:not(.stagger) > .card:nth-child(n+7) { animation-delay: .3s; }
+@keyframes card-in { from { opacity: 0; transform: translateY(16px); } }
+
+/* 6. a band of light sweeps across a product pack on hover */
+.media::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .6) 50%, transparent 65%);
+  transform: translateX(-120%);
+  pointer-events: none;
+}
+@media (hover: hover) {
+  .card:hover .media::before { transform: translateX(120%); transition: transform .9s cubic-bezier(.3, .6, .2, 1); }
+}
+
+/* 7. buttons press in slightly when clicked */
+.btn, .hp-btn, .cmp-chip, .cart-icon, .hd-icon { transition-property: background-color, color, border-color, box-shadow, transform; }
+.btn:active, .hp-btn:active, .cmp-chip:active { transform: scale(.97); }
+
+/* hero numbers count up without jiggling */
+.hp-stats b { font-variant-numeric: tabular-nums; }
+
+@media (prefers-reduced-motion: reduce) {
+  .view, .grid > .card { animation: none; }
+  .cmyk.cm-wait i, .stagger.fx-wait > * { opacity: 1; transform: none; }
+  .scroll-prog { display: none; }
+}

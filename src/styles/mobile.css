@@ -1,0 +1,134 @@
+/* =========================================================
+   Phone and tablet fixes. Loaded after every component's CSS
+   (imported last in App.jsx), so these win where they need to.
+   Goals: nothing below 12px, tap targets of ~44px, no iPhone
+   zoom-on-focus (inputs at 16px), and a slide-up filter sheet.
+   ========================================================= */
+
+/* sheet header and footer only exist on the phone filter sheet */
+.filters .sheet-head, .filters .sheet-foot { display: none; }
+
+@media (max-width: 960px) {
+  /* iPhones zoom the page when you tap a field smaller than 16px */
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), select, textarea { font-size: 16px; }
+
+  /* ---------- shop filters: a sheet that slides up from the bottom ---------- */
+  .filter-toggle { gap: 8px; min-height: 44px; padding-inline: 16px; }
+  .filter-toggle svg { width: 18px; height: 18px; }
+  .shop-bar .sort select { min-height: 44px; }
+  .filter-scrim { position: fixed; inset: 0; z-index: 90; background: rgba(15, 17, 48, .45); animation: sheet-fade .25s ease; }
+  .filters.open {
+    position: fixed;
+    top: auto; /* the desktop column sets top: 96px for sticky */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 91;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    max-height: 86vh;
+    max-height: 86dvh;
+    padding: 0 20px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: #fff;
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 -20px 50px -20px rgba(15, 17, 48, .45);
+    animation: sheet-up .3s cubic-bezier(.2, .7, .2, 1);
+  }
+  .filters.open .sheet-head {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 -20px;
+    padding: 14px 12px 10px 20px;
+    background: #fff;
+    border-bottom: 1px solid var(--line);
+  }
+  .filters.open .sheet-head::before { /* grab handle */
+    content: "";
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    width: 40px;
+    height: 4px;
+    margin-left: -20px;
+    border-radius: 2px;
+    background: #d4d7e3;
+  }
+  .filters.open .sheet-head b { font-size: 1.1rem; }
+  .filters.open > .link-btn { display: none; }
+  .filters.open .sheet-foot {
+    position: sticky;
+    bottom: 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 10px;
+    margin: 0 -20px;
+    padding: 12px 20px calc(12px + env(safe-area-inset-bottom, 0px));
+    background: #fff;
+    border-top: 1px solid var(--line);
+  }
+  .filters.open .sheet-foot .btn { min-height: 48px; justify-content: center; }
+  .filters .check { min-height: 44px; align-items: center; }
+  .filters .check input { width: 20px; height: 20px; }
+
+  /* ---------- tap targets ---------- */
+  .card h3 a { display: block; padding-block: 8px; margin-block: -4px; }
+  .job .chip { display: inline-flex; align-items: center; min-height: 36px; padding-inline: 12px; font-size: .8rem; }
+  .card-actions .btn { min-height: 44px; }
+  .cmp-chip { min-height: 40px; }
+  .cmp-photos button { width: 60px; height: 44px; }
+  .more, .cmp-side-info a { display: inline-block; padding-block: 10px; }
+  .copy-btn { min-height: 36px; padding-inline: 12px; }
+  .thumbs button { min-height: 64px; }
+  .pp-pick button { width: 48px; height: 60px; }
+  .qty button { min-width: 44px; min-height: 44px; }
+  .crumbs a { display: inline-block; padding-block: 6px; }
+  .faq summary { min-height: 52px; }
+  .foot li a { display: inline-block; padding-block: 9px; } /* footer links were 17px tall */
+  .foot ul { gap: 0; }
+
+  /* ---------- readable text (nothing under 12px) ---------- */
+  .chip, .badge { font-size: .76rem; }
+  .thumbs span { font-size: .75rem; }
+  .fp-num { font-size: 12px; }
+  .fp-gsm { font-size: 12px; }
+  .fp-why { font-size: .78rem; }
+  .hp-eyebrow { font-size: 12px; }
+  .sp-hint, .sp-eyebrow, .sp-side, .cmp-pick-label { font-size: 12px; }
+  .sp-card-num { font-size: 11px; } /* tiny index number on the gallery cards, decorative */
+  .size-fig text { font-size: 13px; }
+  .check small, .opt small, .packs small { font-size: .78rem; }
+  small { font-size: max(.75rem, 12px); }
+
+  /* ---------- floating WhatsApp button ---------- */
+  /* keep it out of the way of the cart toast and the filter sheet */
+  body:has(.toast.on) .wa-btn, body:has(.filters.open) .wa-btn { opacity: 0; pointer-events: none; }
+  /* leave room at the very bottom of each page so it never covers the last link */
+  main { padding-bottom: 72px; }
+}
+
+@media (max-width: 640px) {
+  .wa-btn { width: 52px; height: 52px; right: 14px; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); }
+  .wa-btn svg { width: 26px; height: 26px; }
+}
+
+/* small phones */
+@media (max-width: 380px) {
+  .hp-title { font-size: 2.2rem; }
+  .hp-stats li { padding-inline: 6px; }
+  .grid, .shop-body .grid { gap: 20px 10px; }
+  .card h3 { font-size: .92rem; }
+}
+
+@keyframes sheet-up { from { transform: translateY(100%); } }
+@keyframes sheet-fade { from { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .filters.open, .filter-scrim { animation: none; }
+}

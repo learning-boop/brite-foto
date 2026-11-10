@@ -1,0 +1,265 @@
+/* Shop by finish: photo cards. Each card shows a real photograph with that
+   paper's surface texture (--print-tx), colour response (--pf) and sheen
+   (--sheen) from the finish system in styles/global.css. */
+
+.fp-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 36px 22px;
+}
+
+.fp-card {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.fp-media {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 14px;
+  margin-bottom: 10px;
+  background: #e9ebf1;
+  box-shadow: 0 1px 2px rgba(17, 19, 32, .06), 0 18px 36px -22px rgba(17, 19, 32, .45);
+  transition: transform .5s cubic-bezier(.2, .7, .2, 1), box-shadow .5s;
+  isolation: isolate;
+}
+.fp-media.fp-fallback { background: var(--img) center / cover, #e9ebf1; } /* procedural scene if the photo fails */
+.fp-media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: var(--pf);
+  transform: scale(1.01);
+  transition: transform 1.1s cubic-bezier(.2, .7, .2, 1);
+}
+
+/* the paper's surface printed over the photo */
+.fp-tex {
+  position: absolute;
+  inset: 0;
+  background: var(--print-tx);
+  mix-blend-mode: multiply;
+  opacity: .9;
+  pointer-events: none;
+}
+/* light catching the surface, sweeps across on hover */
+.fp-sheen {
+  position: absolute;
+  inset: 0;
+  background: var(--sheen);
+  background-size: 240% 100%;
+  background-position: 100% 0;
+  mix-blend-mode: screen;
+  transition: background-position .9s cubic-bezier(.2, .7, .2, 1);
+  pointer-events: none;
+}
+
+.fp-num {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 2;
+  min-width: 34px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .82);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: #111320;
+  font: 600 .72rem/1.2 "Inter", system-ui, sans-serif;
+  letter-spacing: .04em;
+  text-align: center;
+}
+
+.fp-cap {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 2;
+  display: grid;
+  gap: 2px;
+  padding: 48px 16px 15px;
+  background: linear-gradient(to top, rgba(10, 11, 18, .72), rgba(10, 11, 18, .3) 55%, transparent);
+  color: #fff;
+}
+.fp-name {
+  font-family: "Newsreader", Georgia, serif;
+  font-size: 1.65rem;
+  font-weight: 450;
+  line-height: 1.05;
+  letter-spacing: -.01em;
+}
+.fp-gsm {
+  font: 500 .74rem/1.3 "Inter", system-ui, sans-serif;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  opacity: .85;
+}
+
+.fp-desc {
+  color: var(--ink-2);
+  font-size: .93rem;
+  line-height: 1.4;
+}
+.fp-from {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink);
+  font-size: .9rem;
+  font-weight: 600;
+}
+.fp-from i {
+  font-style: normal;
+  transition: transform .3s;
+}
+
+@media (hover: hover) {
+  .fp-card:hover .fp-media {
+    transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-4px);
+    box-shadow: 0 1px 2px rgba(17, 19, 32, .06), 0 28px 48px -24px rgba(17, 19, 32, .55);
+    transition: transform .15s ease-out, box-shadow .5s;
+  }
+  .fp-card:hover .fp-media img { transform: scale(1.07); }
+  .fp-card:hover .fp-sheen { background-position: 0 0; }
+  .fp-card:hover .fp-from { color: var(--blue); }
+  .fp-card:hover .fp-from i { transform: translateX(4px); }
+  .fp-card:hover .fp-glare { opacity: var(--gl-a, .5); }
+}
+.fp-card:focus-visible { outline: none; }
+.fp-card:focus-visible .fp-media { outline: 3px solid var(--blue); outline-offset: 3px; }
+.fp-card:focus-visible .fp-sheen { background-position: 0 0; }
+
+/* keep four across on tablets and small laptops; two columns made each card
+   nearly a full screen tall and pushed the section to ~3000px */
+@media (max-width: 1024px) {
+  .fp-grid { gap: 28px 14px; }
+  .fp-name { font-size: 1.35rem; }
+  .fp-desc, .fp-from { font-size: .86rem; }
+}
+@media (max-width: 760px) {
+  .fp-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px 18px; }
+}
+@media (max-width: 640px) {
+  .fp-grid { gap: 24px 12px; }
+  .fp-media { border-radius: 12px; margin-bottom: 6px; }
+  .fp-num { top: 8px; left: 8px; min-width: 30px; padding: 3px 7px; font-size: .66rem; }
+  .fp-cap { padding: 36px 11px 10px; }
+  .fp-name { font-size: 1.3rem; }
+  .fp-gsm { font-size: .64rem; letter-spacing: .06em; }
+  .fp-desc { font-size: .84rem; }
+  .fp-from { font-size: .84rem; }
+}
+
+/* FAQ */
+.faq-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+  gap: clamp(24px, 5vw, 72px);
+  align-items: start;
+}
+.faq { border-top: 2px solid var(--ink); }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 0;
+  cursor: pointer;
+  list-style: none;
+  font-weight: 650;
+  font-size: 1.05rem;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: "+";
+  flex: none;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--stock);
+  font-size: 1.2rem;
+  font-weight: 500;
+  transition: transform .25s, background .25s;
+}
+.faq details[open] summary::after { transform: rotate(45deg); background: var(--blue-wash); color: var(--blue); }
+.faq summary:hover { color: var(--blue); }
+.faq details p { color: var(--ink-2); padding: 0 44px 20px 0; max-width: 64ch; }
+@media (max-width: 860px) {
+  .faq-wrap { grid-template-columns: minmax(0, 1fr); }
+  .faq details p { padding-right: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq summary::after { transition: none; }
+  .fp-media, .fp-media img, .fp-sheen, .fp-from i { transition: none; }
+}
+
+
+/* light glare that follows the pointer: strong on glossy and metallic,
+   barely there on matte, fine art and canvas (--gl-a from the finish system) */
+.fp-glare {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: soft-light;
+  background: radial-gradient(circle at var(--gx, 50%) var(--gy, 30%), rgba(255, 255, 255, .95), rgba(255, 255, 255, .25) 22%, transparent 55%);
+  transition: opacity .35s;
+}
+.fp-why {
+  color: var(--ink-3);
+  font-size: .8rem;
+  font-style: italic;
+  line-height: 1.35;
+}
+
+/* Papers by the job: a photo of the work each customer prints */
+.job-photo {
+  display: block;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border-radius: 10px;
+  margin-bottom: 6px;
+  background: var(--stock);
+}
+.job-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s cubic-bezier(.2, .7, .2, 1); }
+@media (hover: hover) { .job:hover .job-photo img { transform: scale(1.05); } }
+
+/* ---------- scroll effects (classes added by useScrollEffects) ---------- */
+.reveal.fx-wait { opacity: 0; transform: translateY(26px); }
+.reveal.fx-wait.fx-in {
+  opacity: 1;
+  transform: none;
+  transition: opacity .8s ease, transform .9s cubic-bezier(.2, .7, .2, 1);
+}
+/* a print developing: starts pale, flat and slightly soft, then the colour comes up */
+.develop.fx-wait img { filter: grayscale(1) brightness(1.35) contrast(.55) blur(2px); }
+.develop.fx-wait.fx-in img {
+  filter: var(--pf, none);
+  transition: filter 1.6s cubic-bezier(.3, .6, .2, 1) var(--dd, 0s), transform 1.1s cubic-bezier(.2, .7, .2, 1);
+}
+.job-photo.develop.fx-in img { filter: none; }
+
+@media (max-width: 640px) {
+  .fp-why { font-size: .74rem; }
+}
+
+/* Size and thickness (merged section) */
+.st-sub { margin: 0 0 10px; font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
+.st-sub span { display: block; margin-top: 4px; font-size: .92rem; font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--ink-2); }
+.st-thick { margin-top: clamp(32px, 4vw, 52px); }
+.st-thick .gsm-grid { background: var(--paper); padding-left: 18px; border-radius: 10px; border: 1px solid var(--line); }
+.gsm-item .feel { font-style: normal; font-weight: 600; font-size: .86rem; color: var(--blue); }
+@media (max-width: 960px) { .st-thick .gsm-grid { padding-inline: 16px; } }
+.st-thick .gsm-item { grid-template-rows: auto auto auto 1fr; gap: 6px; }
