@@ -1,0 +1,201 @@
+/* =========================================================
+   Wishlist hearts, WhatsApp / Enquiry buttons, the enquiry
+   dialog, saved pages, and the phone bottom navigation.
+   ========================================================= */
+
+/* ---------- heart (wishlist) ---------- */
+.wish-btn {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .92);
+  color: var(--ink);
+  box-shadow: 0 2px 8px -2px rgba(15, 17, 48, .25);
+  cursor: pointer;
+  transition: transform .2s, color .2s;
+}
+.wish-btn svg { width: 20px; height: 20px; }
+.wish-btn:hover { transform: scale(1.08); }
+.wish-btn.on { color: #e5132a; }
+.wish-btn.on svg { animation: wish-pop .4s cubic-bezier(.3, .7, .3, 1.4); }
+@keyframes wish-pop { 40% { transform: scale(1.3); } }
+.card-wish { position: absolute; top: 10px; right: 10px; z-index: 4; }
+.pdp-title { display: flex; align-items: flex-start; gap: 12px; }
+.pdp-title h1 { flex: 1; }
+.pdp-wish { flex: none; width: 46px; height: 46px; margin-top: 2px; background: var(--stock); box-shadow: none; }
+.pdp-wish svg { width: 23px; height: 23px; }
+
+/* ---------- WhatsApp + Enquiry now ---------- */
+.enq-row { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 6px; } /* one or two equal buttons */
+.enq-row .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 38px;
+  padding: 0 8px;
+  border-radius: var(--r-s);
+  font-size: .8rem;
+  font-weight: 650;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.enq-row svg { width: 17px; height: 17px; flex: none; }
+.enq-sm { margin-top: 6px; }
+.enq-wa { background: #e8f9ef; color: #0b6b34; border: 1.5px solid #bfe9cf; }
+.enq-wa:hover { background: #25d366; color: #fff; border-color: #25d366; }
+.enq-btn { background: #fff; color: var(--ink); border: 1.5px solid var(--line); }
+.enq-btn:hover { border-color: var(--ink); background: var(--ink); color: #fff; }
+.enq-page { margin-top: 10px; gap: 10px; }
+.enq-page .btn { min-height: 50px; font-size: .95rem; }
+.enq-page svg { width: 20px; height: 20px; }
+.enq-lead { margin: 18px 0 0; font-size: .9rem; color: var(--ink-2); }
+/* narrow cards: icon over a short word so both fit side by side */
+@media (max-width: 420px) {
+  .enq-sm .btn { flex-direction: column; gap: 2px; min-height: 48px; font-size: .74rem; padding: 4px; }
+}
+
+/* ---------- enquiry dialog ---------- */
+.enq-modal { position: fixed; inset: 0; z-index: 120; display: grid; place-items: center; padding: 16px; }
+.enq-scrim { position: absolute; inset: 0; background: rgba(15, 17, 48, .5); animation: enq-fade .2s ease; }
+.enq-card {
+  position: relative;
+  width: min(560px, 100%);
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  padding: 22px 22px 24px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 40px 80px -30px rgba(15, 17, 48, .6);
+  animation: enq-in .3s cubic-bezier(.2, .7, .2, 1);
+}
+.enq-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.enq-head h2 { margin: 0; font-size: 1.35rem; }
+.enq-head p { margin: 4px 0 0; color: var(--ink-2); font-size: .92rem; }
+.enq-card .fields { margin-bottom: 16px; }
+.enq-wide { width: 100%; justify-content: center; min-height: 50px; }
+.enq-done { display: grid; gap: 10px; }
+.enq-done .enq-wa { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 650; }
+.enq-done .enq-wa svg { width: 20px; height: 20px; }
+@keyframes enq-in { from { opacity: 0; transform: translateY(16px) scale(.98); } }
+@keyframes enq-fade { from { opacity: 0; } }
+@media (max-width: 640px) {
+  /* a sheet from the bottom on phones */
+  .enq-modal { place-items: end stretch; padding: 0; }
+  .enq-card { width: 100%; max-height: 92dvh; border-radius: 20px 20px 0 0; padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px)); animation-name: enq-up; }
+  .enq-card .fields { grid-template-columns: minmax(0, 1fr); }
+  @keyframes enq-up { from { transform: translateY(100%); } }
+}
+
+/* ---------- saved pages ---------- */
+.saved-empty { display: grid; justify-items: center; gap: 10px; padding: 56px 16px 72px; text-align: center; }
+.saved-empty svg { width: 52px; height: 52px; color: #e5132a; }
+.saved-empty p { color: var(--ink-2); margin: 0 0 8px; }
+.acct-list { list-style: none; margin: 0 0 64px; padding: 0; max-width: 640px; border-top: 1px solid var(--line); }
+.acct-list a, .acct-list button {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  column-gap: 12px;
+  width: 100%;
+  padding: 16px 4px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: none;
+  text-align: left;
+  text-decoration: none;
+  color: var(--ink);
+  cursor: pointer;
+}
+.acct-list b { font-size: 1.02rem; }
+.acct-list span { grid-column: 1; color: var(--ink-2); font-size: .88rem; }
+.acct-list i { grid-column: 2; grid-row: 1 / 3; align-self: center; font-style: normal; font-size: 1.6rem; color: var(--ink-3); }
+.acct-list a:hover, .acct-list button:hover { background: var(--stock); }
+
+/* ---------- bottom navigation (phones) ---------- */
+.bottom-nav { display: none; }
+@media (max-width: 760px) {
+  .bottom-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 65; /* under the drawers' dimmed background (70) */
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    align-items: end;
+    height: calc(66px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background: rgba(255, 255, 255, .97);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border-top: 1px solid var(--line);
+    box-shadow: 0 -8px 24px -16px rgba(15, 17, 48, .35);
+  }
+  .bn-item, .bn-shop {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    align-content: end;
+    gap: 3px;
+    height: 66px;
+    padding-bottom: 9px;
+    color: #5b6078;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .bn-icon { position: relative; display: grid; place-items: center; }
+  .bn-icon svg { width: 25px; height: 25px; }
+  .bn-label { font-size: 12px; font-weight: 600; line-height: 1; }
+  .bn-item.on, .bn-shop.on { color: var(--blue); }
+  .bn-item:active .bn-icon { transform: scale(.9); }
+  .bn-badge {
+    position: absolute;
+    top: -5px;
+    right: -9px;
+    min-width: 17px;
+    height: 17px;
+    padding: 0 4px;
+    border-radius: 9px;
+    background: #e5132a;
+    color: #fff;
+    font-size: 10.5px;
+    font-weight: 700;
+    line-height: 17px;
+    text-align: center;
+    box-shadow: 0 0 0 2px #fff;
+  }
+  /* the raised round Shop button in the middle */
+  .bn-shop-btn {
+    display: grid;
+    place-items: center;
+    width: 58px;
+    height: 58px;
+    margin-top: -26px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: #fff;
+    box-shadow: 0 0 0 5px #fff, 0 10px 22px -6px rgba(27, 31, 216, .65);
+    transition: transform .2s;
+  }
+  .bn-shop-btn svg { width: 26px; height: 26px; }
+  .bn-shop:active .bn-shop-btn { transform: scale(.92); }
+  .bn-shop .bn-label { color: var(--ink); }
+  .bn-shop.on .bn-label { color: var(--blue); }
+
+  /* keep the page, WhatsApp button and messages clear of the bar */
+  body { padding-bottom: calc(66px + env(safe-area-inset-bottom, 0px)); }
+  .wa-btn { bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
+  .toast { bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wish-btn.on svg, .enq-card, .enq-scrim { animation: none; }
+}
+
+/* card labels stack down the left so the heart (top right) never covers them */
+.card .badges { flex-direction: column; align-items: flex-start; right: 56px; }

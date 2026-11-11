@@ -10,6 +10,10 @@ import Product from './pages/Product';
 import Checkout from './pages/Checkout';
 import Done from './pages/Done';
 import { About, Bulk, Contact } from './pages/InfoPages';
+import { Account, Wishlist } from './pages/Saved';
+import BottomNav from './components/BottomNav';
+import { EnquiryModal } from './components/ProductActions';
+import './styles/actions.css';
 // phone and tablet fixes: imported last so they override component styles
 import './styles/mobile.css';
 
@@ -23,6 +27,8 @@ function Page() {
     case 'bulk': return <Bulk />;
     case 'about': return <About />;
     case 'contact': return <Contact />;
+    case 'wishlist': return <Wishlist />;
+    case 'account': return <Account />;
     default: return <Home />;
   }
 }
@@ -47,6 +53,8 @@ function Layout() {
       <CartDrawer />
       <WhatsAppButton />
       <Toast />
+      <EnquiryModal />
+      <BottomNav />
       <Motion />
     </>
   );

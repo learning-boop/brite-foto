@@ -114,7 +114,7 @@
 }
 
 @media (max-width: 640px) {
-  .wa-btn { width: 52px; height: 52px; right: 14px; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); }
+  .wa-btn { width: 52px; height: 52px; right: 14px; bottom: calc(80px + env(safe-area-inset-bottom, 0px)); } /* above the bottom nav */
   .wa-btn svg { width: 26px; height: 26px; }
 }
 

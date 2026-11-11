@@ -4,6 +4,7 @@ import { finVars, fullName, gsmText, inr, off, packLabel, sizeText, tierRate } f
 import { useStore } from '../context/StoreContext';
 import { Crumbs, FilterLink, FinishChip, Pack, ProductCard } from '../components/ui';
 import { FINISH_PHOTOS, printPhotos } from '../components/hero/photos';
+import { EnquiryButtons, WishButton } from '../components/ProductActions';
 
 /* plain-English notes for printing terms, shown next to the spec */
 const BASE_NOTE = {
@@ -183,7 +184,7 @@ export default function Product({ id }) {
             <FinishChip p={p} /><span className="chip">{gsmText(p)}</span><span className="chip">{sizeText(p)}</span>
             {p.best ? <span className="chip" style={{ background: 'var(--ink)', color: '#fff' }}>Best seller</span> : null}
           </div>
-          <h1>{fullName(p)}</h1>
+          <div className="pdp-title"><h1>{fullName(p)}</h1><WishButton id={p.id} className="pdp-wish" /></div>
           <p className="desc">
             {p.kind === 'kit'
               ? 'Two A4 sheets of each Britefoto finish: glossy, luster, satin, pearl, metallic, matte, fine art and canvas. Print the same photo on all eight and choose the one you like before buying a full pack.'
@@ -217,6 +218,8 @@ export default function Product({ id }) {
             <button className="btn btn-blue" type="button" onClick={() => addToCart(p.id, sel, qty)}>Add to cart</button>
             <button className="btn btn-red" type="button" onClick={() => { addToCart(p.id, sel, qty); hideToast(); go('checkout'); }}>Buy now</button>
           </div>
+          <p className="enq-lead">Questions, bulk or a custom size? Ask us directly:</p>
+          <EnquiryButtons p={p} pack={sel} size="page" />
           <div className="mini-tiers">
             <table className="tiers">
               <thead><tr><th>Packs</th><th>Price per pack</th><th>Saving</th></tr></thead>

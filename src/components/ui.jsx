@@ -2,6 +2,7 @@ import { Fragment, useEffect, useRef } from 'react';
 import { FIN, FINISH_ORDER } from '../data/catalog';
 import { finVars, fullName, gsmText, inr, lineCalc, off, packLabel, sizeText } from '../lib/helpers';
 import { useStore } from '../context/StoreContext';
+import { EnquiryButtons, WishButton } from './ProductActions';
 
 /* ---------- icons ---------- */
 export const IconSearch = () => (
@@ -114,6 +115,7 @@ export function ProductCard({ p }) {
   return (
     <article className="card">
       <a className="media" href={'#product-' + p.id} aria-label={fullName(p)}><Pack p={p} /></a>
+      <WishButton id={p.id} className="card-wish" />
       <div className="badges">
         {pk[2] > pk[1] && <span className="badge">{off(pk[1], pk[2])}% off</span>}
         {p.best ? <span className="badge best">Best seller</span> : null}
@@ -128,6 +130,7 @@ export function ProductCard({ p }) {
         <div className="card-actions">
           <button className="btn btn-blue btn-sm" type="button" onClick={() => addToCart(p.id, 0, 1)}>Add to cart</button>
         </div>
+        <EnquiryButtons p={p} />
       </div>
     </article>
   );

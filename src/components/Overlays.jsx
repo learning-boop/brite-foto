@@ -88,13 +88,20 @@ export function CartDrawer() {
 }
 
 export function Toast() {
-  const { toast, hideToast, openDrawer } = useStore();
+  const { toast, hideToast, openDrawer, go, toggleWish } = useStore();
+  const act = toast.action;
+  const onAct = () => {
+    hideToast();
+    if (!act) openDrawer('cart');
+    else if (act.view) go(act.view);
+    else if (act.undo) toggleWish(act.undo);
+  };
   return (
     <div className={'toast' + (toast.on ? ' on' : '')} role="status" aria-live="polite">
       {toast.msg && (
         <>
           <span>{toast.msg}</span>
-          <button type="button" onClick={() => { hideToast(); openDrawer('cart'); }}>View cart</button>
+          <button type="button" onClick={onAct}>{act ? act.label : 'View cart'}</button>
         </>
       )}
     </div>
