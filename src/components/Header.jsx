@@ -54,7 +54,7 @@ function Search({ id, withSuggest, inputRef }) {
     <form className="search" ref={formRef} role="search" autoComplete="off" onSubmit={e => { e.preventDefault(); run(); }}>
       <label className="sr" htmlFor={id}>Search photo paper</label>
       <input
-        id={id} ref={input} type="search" placeholder="Search glossy, A4, 260 GSM" value={q}
+        id={id} ref={input} type="search" placeholder="Search glossy, 4x6, rolls" value={q}
         onChange={e => { setQ(e.target.value); setIdx(-1); setOpen(e.target.value.trim().length >= 2); }}
         onKeyDown={onKeyDown}
       />
@@ -169,17 +169,17 @@ export default function Header() {
                 {FINISH_ORDER.map(f => <li key={f}><FilterLink filter={'finish:' + f}><Dot finish={f} />{f}</FilterLink></li>)}
               </ul></div>
               <div><h4>By size</h4><ul>
-                {SIZES.map(s => <li key={s.k}><FilterLink filter={'size:' + s.k}>{s.k === 'Roll' ? 'Rolls (24 and 44 in)' : `${s.k} (${s.inch})`}</FilterLink></li>)}
+                {SIZES.map(s => <li key={s.k}><FilterLink filter={'size:' + s.k}>{s.k === 'Roll' ? 'Rolls (12 to 42 in)' : `${s.label} (${s.inch})`}</FilterLink></li>)}
               </ul></div>
               <div><h4>By thickness</h4><ul>
                 {GSM.map(g => <li key={g.k}><FilterLink filter={'gsm:' + g.k}>{g.label}</FilterLink></li>)}
               </ul></div>
-              <a className="mega-promo" href="#product-sampler-kit">
+              <FilterLink className="mega-promo" filter="size:Roll">
                 <div className="mega-stripes" />
-                <b>Not sure which finish?</b>
-                <span>The sampler kit has two A4 sheets of all eight finishes, so you can test them on your own printer.</span>
-                <em>See the sampler kit, ₹299</em>
-              </a>
+                <b>Printing large format?</b>
+                <span>240 GSM rolls in 7 widths from 12 to 42 in, 30 m long, on a 2 in or 3 in core.</span>
+                <em>See all rolls</em>
+              </FilterLink>
             </div>
           </div>
           <div className="has-drop">
@@ -201,7 +201,7 @@ export default function Header() {
                 const n = PRODUCTS.filter(p => p.size === s.k).length;
                 return (
                   <FilterLink key={s.k} filter={'size:' + s.k}>
-                    <span><b>{s.k === 'Roll' ? 'Rolls' : s.k}</b><small>{s.inch}</small></span>
+                    <span><b>{s.label}</b><small>{s.inch}</small></span>
                     <em>{n} {n === 1 ? 'paper' : 'papers'}</em>
                   </FilterLink>
                 );

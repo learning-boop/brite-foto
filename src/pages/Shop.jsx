@@ -40,7 +40,7 @@ export default function Shop() {
 
   const chips = [];
   ['finish', 'size', 'gsm'].forEach(g => keys(filt[g]).forEach(k => {
-    const label = g === 'gsm' ? GSM.find(x => x.k === k).label : g === 'size' && k === 'Roll' ? 'Rolls' : k;
+    const label = g === 'gsm' ? GSM.find(x => x.k === k).label : g === 'size' ? SIZES.find(x => x.k === k).label : k;
     chips.push(
       <button key={g + k} className="fchip" type="button" onClick={() => setFilt(f => ({ ...f, [g]: { ...f[g], [k]: false } }))}>
         {label} <span aria-hidden="true">×</span><span className="sr">Remove filter</span>
@@ -88,7 +88,7 @@ export default function Shop() {
               <CheckGroup group="finish" items={FINISH_ORDER.map(f => ({ k: f, label: f, dot: <Dot finish={f} /> }))} />
             </div></fieldset>
             <fieldset><legend>Size</legend><div>
-              <CheckGroup group="size" items={SIZES.map(s => ({ k: s.k, label: s.k === 'Roll' ? 'Rolls' : `${s.k} (${s.inch})` }))} />
+              <CheckGroup group="size" items={SIZES.map(s => ({ k: s.k, label: s.k === 'Roll' ? 'Rolls (12 to 42 in)' : `${s.label} (${s.inch})` }))} />
             </div></fieldset>
             <fieldset><legend>Thickness</legend><div>
               <CheckGroup group="gsm" items={GSM.map(g => ({ k: g.k, label: g.label }))} />

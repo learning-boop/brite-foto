@@ -47,7 +47,7 @@ export function Bulk() {
             <div className="field"><label htmlFor="b-city">City</label><input id="b-city" name="city" required autoComplete="address-level2" {...err('city')} />{msg('city')}</div>
             <div className="field"><label htmlFor="b-phone">Mobile number</label><input id="b-phone" name="phone" type="tel" inputMode="numeric" required autoComplete="tel" placeholder="10-digit mobile" {...err('phone')} />{msg('phone')}</div>
             <div className="field"><label htmlFor="b-email">Email <small>(optional)</small></label><input id="b-email" name="email" type="email" autoComplete="email" {...err('email')} />{msg('email')}</div>
-            <div className="field full"><label htmlFor="b-need">What do you need each month?</label><textarea id="b-need" name="need" required placeholder="For example: 40 packs Glossy 270 GSM 4R, 10 packs Luster 260 GSM A4, 2 rolls Luster 44 in" {...err('need')} />{msg('need')}</div>
+            <div className="field full"><label htmlFor="b-need">What do you need each month?</label><textarea id="b-need" name="need" required placeholder="For example: 40 packs Glossy 4×6 (400 sheets), 10 packs Satin 8×12, 2 rolls Matte 24 in" {...err('need')} />{msg('need')}</div>
           </div>
           <button className="btn btn-blue" type="submit">Send request</button>
           <div aria-live="polite">
@@ -77,7 +77,7 @@ export function About() {
           <div><a className="btn btn-blue" href="#shop">Shop photo paper</a></div>
         </div>
         <div>
-          <h2 className="h2" style={{ fontSize: '1.4rem', marginBottom: 12 }}>The eight finishes we make</h2>
+          <h2 className="h2" style={{ fontSize: '1.4rem', marginBottom: 12 }}>The three finishes we make</h2>
           <ul className="types">
             {FINISH_ORDER.map(f => <li key={f}><Dot finish={f} /><b>{f}</b><span>{FIN[f].long}</span></li>)}
           </ul>

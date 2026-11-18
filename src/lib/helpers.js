@@ -3,9 +3,15 @@ import { FIN, GSM, PRODUCTS, byId, FREE_SHIP, SHIP_FEE } from '../data/catalog';
 export const inr = n => '₹' + Math.round(n).toLocaleString('en-IN');
 export const off = (p, m) => Math.round((1 - p / m) * 100);
 export const gsmText = p => (p.gsm ? p.gsm + ' GSM' : p.gsmLabel + ' GSM');
-export const sizeText = p => (p.kind === 'roll' ? p.roll : p.size);
-export const fullName = p => p.name + (p.kind === 'roll' ? ', ' + p.roll : ', ' + p.size) + (p.gsm ? ', ' + p.gsm + ' GSM' : '');
-export function packLabel(p, n) {
+export const sizeText = p => (p.kind === 'roll' ? p.roll : sizeName(p.size));
+const SIZE_IN = { '8x12': '8 × 12 in', '10x15': '10 × 15 in', '12x18': '12 × 18 in' };
+export const sizeName = k => SIZE_IN[k] || k;
+export const fullName = p => p.name + (p.kind === 'roll' ? ', ' + p.roll : ', ' + sizeName(p.size)) + (p.gsm ? ', ' + p.gsm + ' GSM' : '');
+/** A pack's label: pass the pack ([qty, price, mrp, label?]) or just its quantity.
+    Rolls carry their width as the label, e.g. "24 in × 30 m". */
+export function packLabel(p, pk) {
+  if (Array.isArray(pk) && pk[3]) return pk[3];
+  const n = Array.isArray(pk) ? pk[0] : pk;
   const u = p.unit === 'roll' ? (n > 1 ? 'rolls' : 'roll') : 'sheets';
   return n + ' ' + u;
 }

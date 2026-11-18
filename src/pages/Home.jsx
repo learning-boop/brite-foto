@@ -9,7 +9,7 @@ import './home-finishes.css';
 import { Cmyk, FilterLink, ProductCard } from '../components/ui';
 
 function SizeFigure({ hl }) {
-  const sheets = SIZES.filter(s => s.mm), S = .62, pad = 20, H = 483 * S + pad * 2, W = 329 * S + pad * 2;
+  const sheets = SIZES.filter(s => s.mm), S = .62, pad = 20, big = sheets.at(-1).mm, H = big[1] * S + pad * 2, W = big[0] * S + pad * 2;
   return (
     <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Britefoto sheet sizes drawn to the same scale">
       {sheets.slice().reverse().map(s => {
@@ -17,7 +17,7 @@ function SizeFigure({ hl }) {
         return (
           <g key={s.k} className={'sz' + (hl === s.k ? ' on' : '')}>
             <rect x={x} y={y} width={w} height={h} />
-            <text x={x + w - 6} y={y + 12.5} textAnchor="end">{s.k}</text>
+            <text x={x + w - 6} y={y + 12.5} textAnchor="end">{s.label}</text>
           </g>
         );
       })}
@@ -26,18 +26,19 @@ function SizeFigure({ hl }) {
 }
 
 const JOBS = [
-  { h: 'Photo studios', p: 'Portraits, weddings and client proofs that need rich skin tones and low glare.', tags: [['finish:Luster', 'Luster'], ['finish:Satin', 'Satin'], ['finish:Pearl', 'Pearl']] },
-  { h: 'Photo labs and DTP centres', p: 'High-volume 4R and A4 prints, passport photos and same-day orders.', tags: [['size:4R', '4R sheets'], ['finish:Glossy', 'Glossy'], ['size:Roll', 'Rolls']] },
-  { h: 'Album designers', p: 'Album spreads and covers on heavier stock that handles well page after page.', tags: [['gsm:260', '260 to 270 GSM'], ['finish:Matte', 'Matte']] },
-  { h: 'Commercial printers', p: 'Brochures, menus, certificates and posters, including double-sided matte.', tags: [['gsm:130', '130 GSM'], ['size:A3', 'A3'], ['size:A3+', 'A3+']] },
-  { h: 'Artists and galleries', p: 'Textured fine art sheets and canvas for exhibitions and wall art.', tags: [['finish:Fine Art', 'Fine art'], ['finish:Canvas', 'Canvas']] },
-  { h: 'Home and office', p: 'Family photos, school projects and certificates on a desktop inkjet.', tags: [['size:A4', 'A4'], [null, 'Sampler kit']] },
+  { h: 'Photo studios', p: 'Portraits, weddings and client proofs that need rich skin tones and low glare.', tags: [['finish:Satin', 'Satin'], ['finish:Matte', 'Matte'], ['size:8x12', '8 × 12 in']] },
+  { h: 'Photo labs and DTP centres', p: 'High-volume 4 × 6 prints, passport photos and same-day orders, plus rolls for lab printers.', tags: [['size:4R', '4 × 6 in'], ['finish:Glossy', 'Glossy'], ['size:Roll', 'Rolls']] },
+  { h: 'Album designers', p: 'Album spreads on 270 GSM stock that handles well page after page.', tags: [['size:8x12', '8 × 12 in'], ['size:12x18', '12 × 18 in'], ['finish:Satin', 'Satin']] },
+  { h: 'Commercial printers', p: 'Posters, display prints and enlargements on large-format printers.', tags: [['size:Roll', 'Rolls'], ['size:12x18', '12 × 18 in'], ['finish:Glossy', 'Glossy']] },
+  { h: 'Artists and galleries', p: 'Exhibition prints and wall photos with a calm, glare-free surface.', tags: [['finish:Matte', 'Matte'], ['size:10x15', '10 × 15 in'], ['size:12x18', '12 × 18 in']] },
+  { h: 'Home and office', p: 'Family photos and gifts printed on a desktop inkjet.', tags: [['size:4R', '4 × 6 in'], ['size:5R', '5 × 7 in']] },
 ];
 
 const FAQS = [
-  ['Will it work with my printer?', 'Yes, if it is an inkjet. Britefoto paper is made for Epson, Canon, HP and Brother inkjet printers, with dye or pigment inks, from desktop models to lab and large-format machines. It is not made for laser printers.'],
-  ['Which finish should I choose?', 'Glossy gives the most punch and contrast. Luster, satin and pearl keep rich colour with less glare, which is why studios use them for portraits. Matte has no shine and suits text and albums. Not sure? The sampler kit has all eight finishes in one pack.'],
-  ['What does GSM mean, and how thick should I go?', 'GSM is the weight of one square metre of paper. Lighter stock (around 130 GSM) suits brochures and handouts, 180 to 230 GSM suits everyday photos, and 260 GSM and above feels like a professional print or album page.'],
+  ['Will it work with my printer?', 'Yes, if it is an inkjet. Britefoto RC paper is made for Epson, Canon, HP and Brother inkjet printers, with dye or pigment inks, from desktop models to lab and large-format machines. It is not made for laser printers.'],
+  ['Which finish should I choose?', 'Glossy gives the most punch and contrast, great for colourful photos. Satin keeps rich colour with less glare, which is why studios use it for portraits and weddings. Matte has no shine and no fingerprints, and suits framing and prints with text.'],
+  ['What does RC and GSM mean?', 'RC means resin coated: a water-resistant base, the same type photo labs use, so prints dry fast and stay flat. GSM is the weight of one square metre of paper. Our cut sizes are 270 GSM, thick like a pro lab print, and our rolls are 240 GSM so they feed smoothly in large-format printers.'],
+  ['Which roll and core size do I need?', 'Rolls are 30 m long in 12, 14, 20, 24, 30, 36 and 42 inch widths. Check your printer for the widest roll it takes and its core size: most desktop and smaller large-format printers use a 2 inch core, larger machines a 3 inch core.'],
   ['Which side do I print on?', 'Print on the bright, coated side. Ink sits on that coating, which gives the sharp detail and quick drying. Load a single test sheet first if you are unsure which way your printer feeds.'],
   ['Do you offer bulk pricing?', 'Yes. Buy 5 to 9 packs of one paper and the cart takes 5% off; 10 or more takes 10% off, automatically. For cartons, rolls or dealer pricing, send a bulk request and we quote within one working day.'],
   ['Is delivery free, and do I get a GST invoice?', 'Delivery is free across India on orders over ₹1,499, and every order comes with a GST invoice.'],
@@ -95,8 +96,8 @@ export default function Home() {
       <section className="sec" id="finishes" style={{ scrollMarginTop: 96 }}>
         <div className="wrap">
           <div className="sec-head reveal">
-            <div><h2 className="h2">Shop by finish</h2><p className="lede">Eight surfaces, each shown on a photograph it suits, with the paper's own texture and shine.</p></div>
-            <a className="more" href="#product-sampler-kit">Try all eight with the sampler kit</a>
+            <div><h2 className="h2">Shop by finish</h2><p className="lede">Three RC finishes, each shown on a photograph it suits, with the paper's own texture and shine.</p></div>
+            <a className="more" href="#shop">See all photo paper</a>
           </div>
           <div className="fp-grid reveal stagger" onPointerMove={tilt} onPointerOut={untilt}>
             {FINISH_ORDER.map((f, i) => {
@@ -159,7 +160,7 @@ export default function Home() {
                 return (
                   <li key={s.k}>
                     <FilterLink filter={'size:' + s.k} onMouseEnter={() => setHl(s.k)} onFocus={() => setHl(s.k)}>
-                      <b>{s.k === 'Roll' ? 'Rolls' : s.k}</b>
+                      <b>{s.label}</b>
                       <span>
                         <span className="dims">{s.inch}{s.mm ? ` (${s.mm[0]} × ${s.mm[1]} mm)` : ''}</span>
                         <span className="use">{s.use}</span>
@@ -202,7 +203,7 @@ export default function Home() {
                 <div className="chips">
                   {j.tags.map(([f, label]) => f
                     ? <FilterLink key={label} filter={f} className="chip">{label}</FilterLink>
-                    : <a key={label} href="#product-sampler-kit" className="chip">{label}</a>)}
+                    : <a key={label} href="#shop" className="chip">{label}</a>)}
                 </div>
               </div>
             ))}

@@ -199,3 +199,7 @@
 
 /* card labels stack down the left so the heart (top right) never covers them */
 .card .badges { flex-direction: column; align-items: flex-start; right: 56px; }
+
+/* rolls: which core size this is, with a link to the other one */
+.core-note { margin: 12px 0 0; font-size: .92rem; color: var(--ink-2); }
+.core-note a { color: var(--blue); font-weight: 600; }

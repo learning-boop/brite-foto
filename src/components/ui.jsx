@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useRef } from 'react';
 import { FIN, FINISH_ORDER } from '../data/catalog';
-import { finVars, fullName, gsmText, inr, lineCalc, off, packLabel, sizeText } from '../lib/helpers';
+import { finVars, fullName, gsmText, inr, lineCalc, off, packLabel, sizeName, sizeText } from '../lib/helpers';
 import { useStore } from '../context/StoreContext';
 import { EnquiryButtons, WishButton } from './ProductActions';
 
@@ -97,7 +97,7 @@ export function Pack({ p }) {
           <b style={{ fontSize: (p.finish.length > 6 ? 7 : 8.6) + 'cqw' }}>{p.finish.toUpperCase()}</b>
           <span>{p.gsm}<small>GSM</small></span>
         </div>
-        <div className="pk-foot"><span>{p.size}</span><i>{packLabel(p, p.packs[0][0])}</i></div>
+        <div className="pk-foot"><span>{sizeName(p.size)}</span><i>{packLabel(p, p.packs[0])}</i></div>
       </div>
     </div>
   );
@@ -105,7 +105,7 @@ export function Pack({ p }) {
 
 export function FinishChip({ p }) {
   return p.finish === 'Mixed'
-    ? <span className="chip">8 finishes</span>
+    ? <span className="chip">3 finishes</span>
     : <span className="chip fin" style={finVars(p.finish)}>{p.finish}</span>;
 }
 
@@ -122,10 +122,10 @@ export function ProductCard({ p }) {
       </div>
       <div className="card-body">
         <div className="chips"><FinishChip p={p} /><span className="chip">{gsmText(p)}</span><span className="chip">{sizeText(p)}</span></div>
-        <h3><a href={'#product-' + p.id}>{p.name}{p.kind === 'roll' ? '' : ', ' + p.size}</a></h3>
+        <h3><a href={'#product-' + p.id}>{p.name}, {p.kind === 'roll' ? p.roll : sizeName(p.size)}</a></h3>
         <div className="price">
           {multi && <span className="from">From</span>}
-          <b>{inr(pk[1])}</b><s>{inr(pk[2])}</s><span className="from">{packLabel(p, pk[0])}</span>
+          <b>{inr(pk[1])}</b><s>{inr(pk[2])}</s><span className="from">{packLabel(p, pk)}</span>
         </div>
         <div className="card-actions">
           <button className="btn btn-blue btn-sm" type="button" onClick={() => addToCart(p.id, 0, 1)}>Add to cart</button>
@@ -153,7 +153,7 @@ export function CartLine({ line, editable }) {
       <Thumb p={p} />
       <div>
         <h3><a href={'#product-' + p.id}>{p.name}</a></h3>
-        <p className="meta">{sizeText(p)}, {gsmText(p)}, {packLabel(p, c.pk[0])}</p>
+        <p className="meta">{sizeText(p)}, {gsmText(p)}, {packLabel(p, c.pk)}</p>
         {editable ? (
           <div className="row">
             <div className="qty sm">

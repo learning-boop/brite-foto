@@ -109,6 +109,6 @@ const heroPrint = (key, id, alt, finish, ar, x = '') => ({
 export const HERO_PRINTS = [
   heroPrint('family',  'photo-1780980301761-f6e0fa6f0bdf', 'Happy family portrait with two daughters', 'Satin', 4 / 3, '&crop=faces'),
   heroPrint('lotus',   'photo-1616435577207-ca90abc6b732', 'Pink lotus in full bloom', 'Glossy', 5 / 4),
-  heroPrint('wedding', 'photo-1722952934708-749c22eb2e58', 'Bride and groom in traditional Indian wedding attire', 'Luster', 4 / 5),
-  heroPrint('travel',  'photo-1777928163243-ce6f437c8ac7', 'Santorini village above the sea at sunset', 'Metallic', 3 / 2),
+  heroPrint('wedding', 'photo-1722952934708-749c22eb2e58', 'Bride and groom in traditional Indian wedding attire', 'Matte', 4 / 5),
+  heroPrint('travel',  'photo-1777928163243-ce6f437c8ac7', 'Santorini village above the sea at sunset', 'Glossy', 3 / 2),
 ];

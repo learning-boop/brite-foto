@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { byId } from '../data/catalog';
-import { emptyFilters, packLabel, storage, totals as calcTotals } from '../lib/helpers';
+import { emptyFilters, packLabel, sizeName, storage, totals as calcTotals } from '../lib/helpers';
 
 const StoreContext = createContext(null);
 export const useStore = () => useContext(StoreContext);
@@ -88,7 +88,7 @@ export function StoreProvider({ children }) {
     setBump(b => b + 1);
     window.dispatchEvent(new CustomEvent('bf:add', { detail: { id } })); // fly-to-cart animation (Motion.jsx)
     const p = byId[id];
-    showToast(`Added ${qty} × ${p.name}${p.kind === 'roll' ? '' : ', ' + p.size}, ${packLabel(p, p.packs[pack][0])}`);
+    showToast(`Added ${qty} × ${p.name}${p.kind === 'roll' ? ', ' + p.roll : ', ' + sizeName(p.size)}, ${packLabel(p, p.packs[pack])}`);
   }, [showToast]);
 
   const setQty = useCallback((id, pack, q) => {

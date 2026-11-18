@@ -18,12 +18,12 @@ const gsmFeel = g => GSM.find(b => g >= b.lo && g <= b.hi)?.feel;
 
 function specRows(p, pk) {
   const F = FIN[p.finish], sz = SIZES.find(s => s.k === p.size);
-  const sizeVal = p.kind === 'roll' ? p.roll : sz ? `${p.size}, ${sz.inch}${sz.mm ? ` (${sz.mm.join(' × ')} mm)` : ''}` : p.size;
+  const sizeVal = p.kind === 'roll' ? `${packLabel(p, pk)}, on a ${p.roll}` : sz ? `${sz.label === sz.k ? sz.k + ', ' : ''}${sz.inch}${sz.mm ? ` (${sz.mm.join(' × ')} mm)` : ''}` : p.size;
   return [
     ['Finish', p.finish === 'Mixed' ? 'Glossy, luster, satin, pearl, metallic, matte, fine art and canvas' : p.finish],
     ['Weight', gsmText(p) + (p.gsm && gsmFeel(p.gsm) ? ` (${gsmFeel(p.gsm).toLowerCase()})` : '')],
     ['Size', sizeVal],
-    ['Pack', packLabel(p, pk[0]) + (p.kind === 'kit' ? ' (2 sheets of each finish)' : '')],
+    ['Pack', p.kind === 'roll' ? '1 roll' : packLabel(p, pk) + (p.kind === 'kit' ? ' (2 sheets of each finish)' : '')],
     ['Base', BASE_NOTE[F.base] ? `${F.base}: ${BASE_NOTE[F.base]}` : F.base],
     ['Printable side', p.sides || 'One side'],
     ['Coating', p.finish === 'Canvas' ? 'Ink-receptive, water-resistant when dry' : 'Instant-dry, ink-receptive'],
@@ -192,21 +192,24 @@ export default function Product({ id }) {
           </p>
           <div className="price">
             <b>{inr(unit)}</b><s>{inr(pk[2])}</s><span className="off">{off(unit, pk[2])}% off</span>
-            <span className="from">per pack of {packLabel(p, pk[0])}{p.unit === 'roll' ? '' : `, ₹${(unit / pk[0]).toFixed(2)} a sheet`}</span>
+            <span className="from">{p.unit === 'roll' ? `per roll, ${packLabel(p, pk)}` : `per pack of ${packLabel(p, pk)}, ₹${(unit / pk[0]).toFixed(2)} a sheet`}</span>
           </div>
           <p className="tax">Inclusive of GST. GST invoice available at checkout.</p>
           {p.packs.length > 1 ? (
-            <fieldset className="opt"><legend>Pack size</legend>
+            <fieldset className="opt"><legend>{p.kind === 'roll' ? 'Roll width' : 'Pack size'}</legend>
               <div className="packs">
                 {p.packs.map((k, i) => (
                   <label key={i}>
                     <input type="radio" name="pack" value={i} checked={sel === i} onChange={() => setSel(i)} />
-                    <span><b>{packLabel(p, k[0])}</b><small>{inr(k[1])}{p.unit === 'roll' ? '' : `, ₹${(k[1] / k[0]).toFixed(2)} a sheet`}</small></span>
+                    <span><b>{packLabel(p, k)}</b><small>{inr(k[1])}{p.unit === 'roll' ? '' : `, ₹${(k[1] / k[0]).toFixed(2)} a sheet`}</small></span>
                   </label>
                 ))}
               </div>
             </fieldset>
-          ) : <p style={{ marginTop: 18, fontWeight: 600 }}>Pack: {packLabel(p, p.packs[0][0])}</p>}
+          ) : <p style={{ marginTop: 18, fontWeight: 600 }}>Pack: {packLabel(p, p.packs[0])}</p>}
+          {p.kind === 'roll' && (
+            <p className="core-note">Core: <b>{p.core}</b>. Need the other size? <a href={'#product-' + p.id.replace(/(2in|3in)$/, m => (m === '2in' ? '3in' : '2in'))}>See the {p.core === '2 in' ? '3 in' : '2 in'} core version</a></p>
+          )}
           <div className="buy-row">
             <div className="qty">
               <button type="button" aria-label="Decrease quantity" onClick={() => setQty(q => clampQty(q - 1))}>−</button>

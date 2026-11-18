@@ -12,7 +12,7 @@ export const SHOW_WA = WHATSAPP_READY || import.meta.env.DEV;
 export function waLink(p, pack = 0, extra = '') {
   const pk = p.packs[pack] || p.packs[0];
   const url = `${window.location.origin}${window.location.pathname}#product-${p.id}`;
-  const msg = `Hi Britefoto, I'm interested in ${fullName(p)} (pack of ${packLabel(p, pk[0])}, ${inr(pk[1])}). ${extra}Please share price and availability.\n${url}`;
+  const msg = `Hi Britefoto, I'm interested in ${fullName(p)} (${p.kind === 'roll' ? '' : 'pack of '}${packLabel(p, pk)}, ${inr(pk[1])}). ${extra}Please share price and availability.\n${url}`;
   return `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
 }
 
@@ -122,7 +122,7 @@ export function EnquiryModal() {
               {p.packs.length > 1 && (
                 <div className="field full"><label htmlFor="e-pack">Pack size</label>
                   <select id="e-pack" name="pack" value={pack} onChange={e => setPack(+e.target.value)}>
-                    {p.packs.map((k, i) => <option key={i} value={i}>{packLabel(p, k[0])}, {inr(k[1])}</option>)}
+                    {p.packs.map((k, i) => <option key={i} value={i}>{packLabel(p, k)}, {inr(k[1])}</option>)}
                   </select>
                 </div>
               )}

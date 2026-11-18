@@ -61,7 +61,7 @@ export function CartDrawer() {
         {!cart.length ? (
           <div className="dr-empty">
             <p style={{ fontWeight: 650 }}>Your cart is empty.</p>
-            <p style={{ color: 'var(--ink-2)' }}>Start with a best seller, or try every finish with the sampler kit.</p>
+            <p style={{ color: 'var(--ink-2)' }}>Start with a best seller: glossy, satin or matte, in cut sizes or rolls.</p>
             <a className="btn btn-blue" href="#shop" onClick={() => closeDrawers(true)}>Shop photo paper</a>
           </div>
         ) : (

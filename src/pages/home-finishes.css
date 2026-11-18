@@ -263,3 +263,10 @@
 .gsm-item .feel { font-style: normal; font-weight: 600; font-size: .86rem; color: var(--blue); }
 @media (max-width: 960px) { .st-thick .gsm-grid { padding-inline: 16px; } }
 .st-thick .gsm-item { grid-template-rows: auto auto auto 1fr; gap: 6px; }
+
+/* three finishes: three across, then one per row on phones with a wider photo */
+.fp-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 760px) {
+  .fp-grid { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .fp-media { aspect-ratio: 4 / 3; }
+}

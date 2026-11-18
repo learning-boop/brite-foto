@@ -15,7 +15,7 @@ import './hero.css';
    left alone.
    --------------------------------------------------------------- */
 
-const CARDS = 16;                         // two rounds of the 8 finishes
+const CARDS = 16;                         // 16 prints, cycling through the finishes
 const STEP = (Math.PI * 2) / CARDS;
 const DRIFT = STEP / 3.2;                 // radians per second: one card every ~3 seconds
 const RESUME_MS = 2200;                   // pause after the visitor moves the ring themselves
@@ -229,7 +229,7 @@ export default function Hero({ variant = 'hero' }) {
   return (
     <section className={'sp-hero' + (asSection ? ' sp-as-section' : '')} aria-labelledby="sp-title">
       <span className="sp-side sp-side-l" aria-hidden="true">Britefoto · Finish index</span>
-      <span className="sp-side sp-side-r" aria-hidden="true">130–380 GSM · 4R–A3+</span>
+      <span className="sp-side sp-side-r" aria-hidden="true">240–270 GSM · 4×6 to 12×18</span>
 
       {asSection ? (
         <div className="wrap sp-head">
@@ -239,7 +239,7 @@ export default function Hero({ variant = 'hero' }) {
         </div>
       ) : (
       <div className="wrap sp-head">
-        <p className="sp-eyebrow sp-rise" style={{ '--d': '0s' }}>The Britefoto collection<span className="sp-eyebrow-extra"> · 8 finishes</span></p>
+        <p className="sp-eyebrow sp-rise" style={{ '--d': '0s' }}>The Britefoto collection<span className="sp-eyebrow-extra"> · 3 finishes</span></p>
         <h1 className="sp-title sp-rise" id="sp-title" style={{ '--d': '.1s' }}>
           Every photograph deserves <br />a <em>brilliant</em> finish
         </h1>
@@ -275,7 +275,7 @@ export default function Hero({ variant = 'hero' }) {
       </div>
 
       <div className="wrap sp-foot">
-        <div className="sp-index" aria-hidden="true"><b>{pad(curN)}</b><span>/ 08</span></div>
+        <div className="sp-index" aria-hidden="true"><b>{pad(curN)}</b><span>/ {pad(FINISH_ORDER.length)}</span></div>
 
         <div className="sp-now" aria-live="polite">
           <span className="sp-hint">Drag · Swipe · Arrow keys</span>
@@ -299,9 +299,9 @@ export default function Hero({ variant = 'hero' }) {
 
       {!asSection && <div className="wrap">
         <ul className="sp-stats" aria-label="Britefoto at a glance">
-          <li><b>130–380 GSM</b><span>Premium paper</span></li>
-          <li><b>8 finishes</b><span>Glossy to canvas</span></li>
-          <li><b>4R to A3+</b><span>Sheet sizes, plus rolls</span></li>
+          <li><b>240–270 GSM</b><span>RC photo paper</span></li>
+          <li><b>3 finishes</b><span>Glossy, satin, matte</span></li>
+          <li><b>4×6 to 12×18</b><span>Cut sizes, plus rolls</span></li>
         </ul>
       </div>}
     </section>

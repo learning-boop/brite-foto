@@ -94,9 +94,9 @@ export default function HeroPrints() {
             <a className="hp-btn hp-btn-ghost" href="#finishes" onClick={toFinishes}>Discover Our Finishes</a>
           </div>
           <ul className="hp-stats hp-rise" style={{ '--d': '.34s' }} aria-label="Britefoto at a glance">
-            <li title="GSM is paper weight: higher means thicker"><Icon d={LAYERS} /><span><b aria-label="130 to 380 GSM"><CountUp from={100} to={130} /> – <CountUp from={100} to={380} /> GSM</b>Light to extra thick</span></li>
-            <li><Icon d={STACK} /><span><b aria-label="8 Premium"><CountUp to={8} delay={650} ms={900} /> Premium</b>Paper Finishes</span></li>
-            <li><Icon d={RESIZE} /><span>Sizes from<b>4R to A3+</b></span></li>
+            <li title="GSM is paper weight: higher means thicker"><Icon d={LAYERS} /><span><b aria-label="240 to 270 GSM"><CountUp from={200} to={240} /> – <CountUp from={200} to={270} /> GSM</b>RC photo paper</span></li>
+            <li><Icon d={STACK} /><span><b aria-label="3 Premium"><CountUp to={3} delay={650} ms={700} /> Premium</b>Paper Finishes</span></li>
+            <li><Icon d={RESIZE} /><span>Sizes from<b>4×6 to 12×18</b></span></li>
           </ul>
         </div>
 
